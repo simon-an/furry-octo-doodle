@@ -8,6 +8,6 @@ import { SafeModule } from '~safe/safe.module';
 
 @NgModule({
   declarations: [UserLandingPageComponent],
-  imports: [CommonModule, UserRoutingModule, , LayoutModule, SafeModule],
+  imports: [CommonModule, UserRoutingModule, LayoutModule, SafeModule],
 })
 export class UserModule {}
