@@ -1,7 +1,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "~core/*": ["app/core/*"],
+      "~safe/*": ["app/safe/*"],
+      "~layout/*": ["app/layout/*"],
+      "~store/*": ["app/store/*"]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
