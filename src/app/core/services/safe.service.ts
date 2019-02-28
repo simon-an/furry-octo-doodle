@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 export class SafeService {
   // private currentSafe: Subject<Safe> = new Subject<Safe>();
   private safes: BehaviorSubject<Safe[]> = new BehaviorSubject<Safe[]>([]);
-  private items: Map<string, AsyncSubject<SafeItem[]>> = new Map<string, AsyncSubject<SafeItem[]>>();
+  private items: Map<string, BehaviorSubject<SafeItem[]>> = new Map<string, BehaviorSubject<SafeItem[]>>();
 
   getSafe(safeId: string): Observable<Safe> {
     return this.safes.asObservable().pipe(map((safes1: Safe[]) => safes1.find(safe => safe.id === safeId)));
@@ -21,7 +21,7 @@ export class SafeService {
 
   getItems(safeId: string): Observable<SafeItem[]> {
     if (!this.items.has(safeId)) {
-      this.items.set(safeId, new AsyncSubject<SafeItem[]>());
+      this.items.set(safeId, new BehaviorSubject<SafeItem[]>(null));
       setTimeout(() => {
         if (safeId === '1') {
           this.items
@@ -67,5 +67,19 @@ export class SafeService {
         activeSince: new Date(2018, 12, 30),
       },
     ] as Safe[]);
+
+  }
+
+  addItem(safeId: string, item: SafeItem): any {
+    if (!this.items.has(safeId)) {
+      this.items.set(safeId, new BehaviorSubject<SafeItem[]>(null));
+    }
+    const oldItems = this.items.get(safeId).getValue();
+    if (!!oldItems) {
+      const newItems = [...oldItems, item];
+      this.items.get(safeId).next(newItems);
+    } else {
+      this.items.get(safeId).next([item]);
+    }
   }
 }
