@@ -8,9 +8,10 @@ import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.
 import { MatListModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { FormsModule } from '@angular/forms';
+import { AdminEmailValidatorDirective } from './directives/admin-email-validator.directive';
 
 @NgModule({
-  declarations: [HomeLandingPageComponent, RegisterFormComponent],
+  declarations: [HomeLandingPageComponent, RegisterFormComponent, AdminEmailValidatorDirective],
   imports: [
     CommonModule,
     HomeRoutingModule,

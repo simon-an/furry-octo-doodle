@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+<form (ngSubmit)="onSubmit()" #registerForm="ngForm" coolAdminEmailValidator>
   <mat-form-field>
     <mat-select placeholder="Role" #roleInput [(value)]="state.role" matInput name="role" [(ngModel)]="state.role">
       <mat-option *ngFor="let role of roles" [value]="role">
@@ -6,9 +6,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-error *ngIf="!!registerForm.errors?.AdminEmail && (email.touched || email.dirty)">
-    Email address domain for admins are restricted.
-  </mat-error>
 
   <mat-form-field>
     <input
@@ -34,4 +31,7 @@
   <button [disabled]="!registerForm.valid" mat-button color="primary">
     Register
   </button>
+  <mat-error *ngIf="!!registerForm.errors?.specialAdmin && (email.touched || email.dirty)">
+    Email address domain for admins are restricted.
+  </mat-error>
 </form>
