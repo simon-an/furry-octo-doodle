@@ -5,8 +5,6 @@ export const adminDomainValidator: ValidatorFn = (control: FormGroup): Validatio
   const role = control.get('role');
   const email = control.get('email');
 
-  console.log(role, email);
-
   return role && email && role.value === 'Administrator' && !email.value.includes('@metafinanz.de')
     ? { specialAdmin: true }
     : null;
