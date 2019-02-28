@@ -1,85 +1,57 @@
 import { Injectable } from '@angular/core';
 import { Safe, SafeItem } from '../model';
-import { Observable, Subject, BehaviorSubject, AsyncSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, timer, ReplaySubject, BehaviorSubject, Subject } from 'rxjs';
+import { map, tap, concatMapTo, take, shareReplay, filter } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SafeService {
-  // private currentSafe: Subject<Safe> = new Subject<Safe>();
-  private safes: BehaviorSubject<Safe[]> = new BehaviorSubject<Safe[]>([]);
-  private items: Map<string, BehaviorSubject<SafeItem[]>> = new Map<string, BehaviorSubject<SafeItem[]>>();
+  private readonly safesUrl = '/api/safes';
+
+  private safes: ReplaySubject<Safe[]> = new ReplaySubject<Safe[]>();
+  private items: Subject<SafeItem[]> = new Subject<SafeItem[]>();
+
+  constructor(private http: HttpClient) {
+    timer(1000)
+      .pipe(concatMapTo(this.loadSafes()))
+      .subscribe(this.safes);
+  }
 
   getSafe(safeId: string): Observable<Safe> {
-    return this.safes.asObservable().pipe(map((safes1: Safe[]) => safes1.find(safe => safe.id === safeId)));
+    return this.safes.asObservable().pipe(
+      map(safes1 => safes1.find(safe => safe.id === safeId)),
+      filter(Boolean),
+    );
+  }
+
+  loadSafes(): Observable<Safe[]> {
+    return this.http.get(this.safesUrl).pipe(map((safes: Safe[]) => safes));
   }
 
   getSafes(): Observable<Safe[]> {
-    return this.safes.asObservable();
+    return this.safes.asObservable().pipe(tap(safes => console.log('get', safes)));
+  }
+
+  addItem(safeId: string, item: SafeItem): Observable<SafeItem> {
+    const obs = this.http.post(this.safesUrl + `/${safeId}/items`, item).pipe(
+      map((response: SafeItem) => response),
+      shareReplay(1),
+    );
+
+    return obs;
   }
 
   getItems(safeId: string): Observable<SafeItem[]> {
-    if (!this.items.has(safeId)) {
-      this.items.set(safeId, new BehaviorSubject<SafeItem[]>(null));
-      setTimeout(() => {
-        if (safeId === '1') {
-          this.items
-            .get(safeId)
-            .next([
-              { id: '1', name: 'Fahrrad', price: 55.5 },
-              { id: '2', name: 'Laptop', price: 999.99 },
-            ] as SafeItem[]);
-        } else if (safeId === '2') {
-          this.items
-            .get(safeId)
-            .next([
-              { id: '3', name: 'Taschenrechner', price: 123.5 },
-              { id: '4', name: 'Sonnenbrille', price: 345 },
-              { id: '5', name: 'Brille', price: 567 },
-            ] as SafeItem[]);
-        } else {
-          this.items.get(safeId).next(null);
-        }
-        // this.items.get(safeId).complete();
-      }, 2000);
-    }
-
-    return this.items.get(safeId).asObservable();
-  }
-
-  constructor() {
-    this.safes.next([
-      {
-        id: '1',
-        value: 999,
-        itemSize: 2,
-        users: ['111'],
-        active: true,
-        activeSince: new Date(1999, 1, 1),
-      },
-      {
-        id: '2',
-        value: 123,
-        itemSize: 3,
-        users: ['17', '19', '25'],
-        active: true,
-        activeSince: new Date(2018, 12, 30),
-      },
-    ] as Safe[]);
-
-  }
-
-  addItem(safeId: string, item: SafeItem): any {
-    if (!this.items.has(safeId)) {
-      this.items.set(safeId, new BehaviorSubject<SafeItem[]>(null));
-    }
-    const oldItems = this.items.get(safeId).getValue();
-    if (!!oldItems) {
-      const newItems = [...oldItems, item];
-      this.items.get(safeId).next(newItems);
-    } else {
-      this.items.get(safeId).next([item]);
-    }
+    const result$ = this.http.get(this.safesUrl + `/${safeId}/items`).pipe(
+      map((items: SafeItem[]) => items),
+      shareReplay(1),
+    );
+    result$.subscribe(items => {
+      // console.log('items loaded ....', items);
+      this.items.next(items);
+    });
+    return result$;
   }
 }
