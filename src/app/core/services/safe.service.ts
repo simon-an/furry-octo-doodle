@@ -41,7 +41,7 @@ export class SafeService {
         } else {
           this.items.get(safeId).next(null);
         }
-        this.items.get(safeId).complete();
+        // this.items.get(safeId).complete();
       }, 2000);
     }
 

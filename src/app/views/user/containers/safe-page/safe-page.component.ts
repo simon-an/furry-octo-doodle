@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, withLatestFrom, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Safe, SafeItem } from '~core/model';
 import { SafeService } from '~core/services';
@@ -19,11 +19,15 @@ export class SafePageComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private service: SafeService, private dialogService: MatDialog) {}
 
   ngOnInit() {
-    this.safe$ = this.activatedRoute.paramMap.pipe(
-      switchMap((params: ParamMap) => this.service.getSafe(params.get('id'))),
+    // this.safe$ = this.activatedRoute.paramMap.pipe(
+    //   switchMap((params: ParamMap) => this.service.getSafe(params.get('id'))),
+    // );
+    this.safe$ = this.activatedRoute.data.pipe(
+      map((data: { safe: Safe }) => {
+        return data.safe;
+      }),
     );
     this.items$ = this.safe$.pipe(switchMap((safe: Safe) => this.service.getItems(safe.id)));
-    this.items$.subscribe(x => console.log(x));
   }
 
   addSafeItem() {
@@ -35,7 +39,7 @@ export class SafePageComponent implements OnInit {
       .afterClosed()
       .pipe(withLatestFrom(this.safe$))
       .subscribe(([result, safe]: [SafeItem, Safe]) => {
-        console.log(`Dialog result: `, result);
+        // console.log(`Dialog result: `, result);
         if (result) {
           this.service.addItem(safe.id, result);
         }
