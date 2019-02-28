@@ -67,4 +67,18 @@ export class AuthService {
   logout() {
     this.currentUser$$.next(null);
   }
+
+  emailExists(email: string): Promise<boolean> {
+    return timer(300)
+      .pipe(
+        map(time => {
+          if (Math.random() * 100 < 20) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+      )
+      .toPromise();
+  }
 }
