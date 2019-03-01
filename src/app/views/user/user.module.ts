@@ -13,6 +13,7 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 import { SafePageComponent } from './containers/safe-page/safe-page.component';
 import { AddSafeItemDialogComponent } from './containers/add-safe-item-dialog/add-safe-item-dialog.component';
@@ -34,6 +35,7 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   exports: [AddSafeItemDialogComponent, SafeItemFormComponent],
   entryComponents: [AddSafeItemDialogComponent],
