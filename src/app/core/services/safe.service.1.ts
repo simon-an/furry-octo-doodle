@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Safe, SafeItem } from '../model';
+import { SafeApi, SafeItem } from '../model';
 import { Observable, Subject, BehaviorSubject, AsyncSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -9,12 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SafeService {
   constructor(private http: HttpClient) {}
-  getSafe(safeId: string): Observable<Safe> {
-    return this.http.get(`api/safes/${safeId}`).pipe(map((safe: Safe) => safe));
+  getSafe(safeId: string): Observable<SafeApi> {
+    return this.http.get(`api/safes/${safeId}`).pipe(map((safe: SafeApi) => safe));
   }
 
-  getSafes(): Observable<Safe[]> {
-    return this.http.get(`api/safes`).pipe(map((safes: Safe[]) => safes));
+  getSafes(): Observable<SafeApi[]> {
+    return this.http.get(`api/safes`).pipe(map((safes: SafeApi[]) => safes));
   }
 
   getItems(safeId: string): Observable<SafeItem[]> {

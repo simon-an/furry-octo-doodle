@@ -1,8 +1,6 @@
+<mat-spinner *ngIf="(loading$ | async)"></mat-spinner>
 <mat-nav-list>
   <h3 mat-subheader>Safes</h3>
-  <cool-safe-list-element
-    *ngFor="let safe of (safes$ | async)"
-    [safe]="safe"
-    ></cool-safe-list-element>
-  </mat-nav-list>
-  <!-- [matTooltip]="safe.id" -->
+  <cool-safe-list-element *ngFor="let safe of (safes$ | async)" [safe]="safe"></cool-safe-list-element>
+</mat-nav-list>
+<!-- [matTooltip]="safe.id" -->

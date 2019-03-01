@@ -10,7 +10,7 @@ import {
 } from 'angular-in-memory-web-api';
 import { delay } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
-import { Safe } from '~core/model';
+import { SafeApi } from '~core/model';
 
 interface DB {
   [collectionName: string]: any[];
@@ -49,7 +49,6 @@ export class SafeInMemDataService implements InMemoryDbService {
         {
           id: '1',
           value: 999,
-          itemSize: 2,
           users: ['111'],
           items: ['1', '2'],
           active: true,
@@ -58,7 +57,6 @@ export class SafeInMemDataService implements InMemoryDbService {
         {
           id: '2',
           value: 123,
-          itemSize: 3,
           items: ['3', '4', '5'],
           users: ['17', '19', '25'],
           active: true,

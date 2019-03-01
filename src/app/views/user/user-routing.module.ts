@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserLandingPageComponent } from './user-landing-page/user-landing-page.component';
 import { SafePageComponent } from './containers/safe-page/safe-page.component';
-import { SafeResolverService } from '~core/services/safe-resolver.service';
+// import { SafeResolverService } from '~core/services/safe-resolver.service';
 
 const routes: Routes = [
   {
@@ -12,9 +12,9 @@ const routes: Routes = [
   {
     path: 'safes/:id',
     component: SafePageComponent,
-    resolve: {
-      safe: SafeResolverService,
-    },
+    // resolve: {
+    //   safe: SafeResolverService,
+    // },
   },
 ];
 

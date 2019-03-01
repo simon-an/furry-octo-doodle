@@ -8,11 +8,20 @@ import { AdminLandingPageComponent } from './pages/admin-landing-page/admin-land
 import { SafeListComponent } from './container/safe-list/safe-list.component';
 import { SafeListElementComponent } from './container/safe-list-element/safe-list-element.component';
 import { SafeRowComponent } from './components/safe-row/safe-row.component';
-import { MatListModule, MatTooltipModule, MatIconModule } from '@angular/material';
+import { MatListModule, MatTooltipModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [AdminLandingPageComponent, SafeListComponent, SafeListElementComponent, SafeRowComponent],
-  imports: [CommonModule, AdminRoutingModule, LayoutModule, SafeModule, MatListModule, MatTooltipModule, MatIconModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    LayoutModule,
+    SafeModule,
+    MatListModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+  ],
   exports: [SafeListElementComponent, SafeRowComponent],
 })
 export class AdminModule {}

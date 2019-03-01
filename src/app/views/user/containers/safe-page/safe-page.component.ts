@@ -1,11 +1,16 @@
 import { Observable, merge, Subject, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { SafeService } from '~core/services';
-import { SafeItem, Safe } from '~core/model';
+import { SafeItem } from '~core/model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, withLatestFrom, filter, exhaustMap, concatMap, mergeMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-item-dialog.component';
+import { State } from 'app/root-store';
+import { Store, select } from '@ngrx/store';
+import { Safe } from 'app/root-store/models/safe';
+import { selectSafesLoading, selectSafe } from 'app/root-store/selectors/safe.selector';
+import { UserLoadSafe } from 'app/root-store/actions/safe.actions';
 
 @Component({
   templateUrl: './safe-page.component.html',
@@ -15,29 +20,26 @@ import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-ite
 export class SafePageComponent implements OnInit {
   safe$: Observable<Safe>;
   items$: Observable<SafeItem[]>;
-  trigger$: Subject<any> = new Subject<any>();
-  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loading$: Observable<boolean>;
+  userId: '111';
   isCustomer = true; // TODO provide through dependency injection
 
-  constructor(private activatedRoute: ActivatedRoute, private service: SafeService, private dialogService: MatDialog) {}
+  constructor(
+    private store: Store<State>,
+    private activatedRoute: ActivatedRoute,
+    private service: SafeService,
+    private dialogService: MatDialog,
+  ) {}
 
   ngOnInit() {
+    this.loading$ = this.store.pipe(select(selectSafesLoading));
+
     this.safe$ = this.activatedRoute.paramMap.pipe(
-      switchMap((params: ParamMap) => this.service.getSafe(params.get('id'))),
+      switchMap((params: ParamMap) => {
+        this.store.dispatch(new UserLoadSafe({ safeId: params.get('id'), userId: this.userId }));
+        return this.store.pipe(select(selectSafe, { safeId: params.get('id') }));
+      }),
     );
-    const fire$ = merge(this.safe$, this.trigger$);
-    fire$.subscribe(() => {
-      this.loading$.next(true);
-    });
-
-    this.items$ = fire$.pipe(
-      withLatestFrom(this.safe$),
-      switchMap(([trigger, safe]: [any, Safe]) => this.service.getItems(safe.id)),
-    );
-
-    this.items$.subscribe(() => {
-      this.loading$.next(false);
-    });
   }
 
   addSafeItem() {
@@ -55,7 +57,6 @@ export class SafePageComponent implements OnInit {
           const result$ = this.service.addItem(safe.id, result);
           result$.subscribe(item => {
             // console.log('new item id: ', item.id);
-            this.trigger$.next(item.id);
           });
         }
       });

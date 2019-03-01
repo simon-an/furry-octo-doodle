@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Safe } from '~core/model';
+import { Safe } from 'app/root-store/models/safe';
 
 @Component({
   selector: 'cool-safe-row',

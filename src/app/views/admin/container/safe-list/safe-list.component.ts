@@ -1,7 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SafeService } from '~core/services';
 import { Observable } from 'rxjs';
-import { Safe } from '~core/model';
+import { Safe } from 'app/root-store/models/safe';
+import { State } from 'app/root-store';
+import { Store, select } from '@ngrx/store';
+import { selectSafes, selectSafesLoading } from 'app/root-store/selectors/safe.selector';
 
 @Component({
   selector: 'cool-safe-list',
@@ -10,11 +13,13 @@ import { Safe } from '~core/model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SafeListComponent implements OnInit {
-  constructor(private safeService: SafeService) {}
+  constructor(private store: Store<State>) {}
 
+  loading$: Observable<boolean>;
   safes$: Observable<Safe[]>;
 
   ngOnInit() {
-    this.safes$ = this.safeService.getSafes();
+    this.safes$ = this.store.pipe(select(selectSafes));
+    this.loading$ = this.store.pipe(select(selectSafesLoading));
   }
 }
