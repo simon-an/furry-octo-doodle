@@ -19,7 +19,7 @@ export function reducer(state = initialState, action: SafeItemActions): State {
   switch (action.type) {
     case SafeItemActionTypes.AddNewSafeItem: {
       const id = uuidv4();
-      const newState = { ...state, newSafeItem: [...state.newSafeItems, id] };
+      const newState: State = { ...state, newSafeItems: [...state.newSafeItems, id] };
       const item = { ...action.payload.safeItem, id };
       return adapter.addOne(item, newState);
     }
@@ -31,6 +31,7 @@ export function reducer(state = initialState, action: SafeItemActions): State {
     }
 
     case SafeItemActionTypes.AddNewSafeItemFailure: {
+      console.log('remove optimistic updated item: ', state.newSafeItems);
       const newState = { ...state, newSafeItem: [] };
       return adapter.removeOne(state.newSafeItems[0], newState);
     }
