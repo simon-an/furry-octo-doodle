@@ -7,6 +7,7 @@ import { Store, select } from '@ngrx/store';
 import { State } from 'app/root-store';
 import { LoadSafeSuccess, LoadSafesSuccess } from 'app/root-store/actions/safe.actions';
 import { Safe } from 'app/root-store/models/safe';
+import { SafeItem } from 'app/root-store/models/safe-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +42,7 @@ export class SafeService {
     return this.safes.asObservable().pipe(tap(safes => console.log('get', safes)));
   }
 
-  addItem(safeId: string, item: SafeItemApi): Observable<SafeItemApi> {
+  addItem(safeId: string, item: SafeItem): Observable<SafeItemApi> {
     const obs = this.http.post(this.safesUrl + `/${safeId}/items`, item).pipe(
       map((response: SafeItemApi) => response),
       shareReplay(1),

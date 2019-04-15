@@ -39,7 +39,7 @@ export class AddNewSafeItem implements Action {
 export class AddNewSafeItemSuccess implements Action {
   readonly type = SafeItemActionTypes.AddNewSafeItemSuccess;
 
-  constructor(public payload: { safeItem: SafeItemApi }) {}
+  constructor(public payload: { safeItem: SafeItem }) {}
 }
 
 export class AddNewSafeItemFailure implements Action {

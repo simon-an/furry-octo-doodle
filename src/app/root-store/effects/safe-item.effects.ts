@@ -6,6 +6,7 @@ import { exhaustMap, catchError, map, tap } from 'rxjs/operators';
 import { SafeService } from '~core/services';
 import { of } from 'rxjs';
 import { SafeItemApi } from '~core/model';
+import { SafeItem } from '../models/safe-item.model';
 
 @Injectable()
 export class SafeItemEffects {
@@ -24,9 +25,14 @@ export class SafeItemEffects {
     ofType(SafeItemActionTypes.AddNewSafeItem),
     tap(action => console.log('add item effect', action)),
     /** An EMPTY observable only emits completion. Replace with your own observable API request */
-    exhaustMap((action: AddNewSafeItem) => this.safeService.addItem(action.payload.safeItem.safeId, action.payload.safeItem)),
+    exhaustMap((action: AddNewSafeItem) =>
+      this.safeService.addItem(action.payload.safeItem.safeId, action.payload.safeItem),
+    ),
     catchError(err => of(new AddNewSafeItemFailure())),
-    map((item: SafeItemApi) => new AddNewSafeItemSuccess({ safeItem: item })),
+    map((item: SafeItemApi) => {
+      return { ...item } as SafeItem;
+    }),
+    map((item: SafeItem) => new AddNewSafeItemSuccess({ safeItem: item })),
   );
 
   constructor(private actions$: Actions, private safeService: SafeService) {}
