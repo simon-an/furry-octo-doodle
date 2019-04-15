@@ -2,22 +2,38 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { SafeItem } from '../models/safe-item.model';
 import { SafeItemActions, SafeItemActionTypes } from '../actions/safe-item.actions';
 import * as fromRoot from '..';
-
+import { v4 as uuidv4 } from 'uuid';
 export interface State extends EntityState<SafeItem> {
-  // additional entities state properties
+  newSafeItems: string[];
+  updatedSafeItems: string[];
 }
 
 export const adapter: EntityAdapter<SafeItem> = createEntityAdapter<SafeItem>();
 
 export const initialState: State = adapter.getInitialState({
-  // additional entity state properties
+  newSafeItems: [],
+  updatedSafeItems: [],
 });
 
 export function reducer(state = initialState, action: SafeItemActions): State {
   switch (action.type) {
-    // case SafeItemActionTypes.AddSafeItem: {
-    //   return adapter.addOne(action.payload.safeItem, state);
-    // }
+    case SafeItemActionTypes.AddNewSafeItem: {
+      const id = uuidv4();
+      const newState = { ...state, newSafeItem: [...state.newSafeItems, id] };
+      const item = { ...action.payload.safeItem, id };
+      return adapter.addOne(item, newState);
+    }
+
+    case SafeItemActionTypes.AddNewSafeItemSuccess: {
+      const newState = { ...state, newSafeItem: [] };
+      const removed = adapter.removeOne(state.newSafeItems[0], newState);
+      return adapter.addOne(action.payload.safeItem, removed);
+    }
+
+    case SafeItemActionTypes.AddNewSafeItemFailure: {
+      const newState = { ...state, newSafeItem: [] };
+      return adapter.removeOne(state.newSafeItems[0], newState);
+    }
 
     // case SafeItemActionTypes.UpsertSafeItem: {
     //   return adapter.upsertOne(action.payload.safeItem, state);

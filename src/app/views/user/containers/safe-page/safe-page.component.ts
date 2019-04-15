@@ -1,3 +1,4 @@
+import { AddNewSafeItem, UserLoadSafeItems } from './../../../../root-store/actions/safe-item.actions';
 import { Observable, merge, Subject, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { SafeService } from '~core/services';
@@ -11,6 +12,7 @@ import { Safe } from 'app/root-store/models/safe';
 import { selectSafesLoading, selectSafe } from 'app/root-store/selectors/safe.selector';
 import { UserLoadSafe } from 'app/root-store/actions/safe.actions';
 import { SafeItem } from 'app/root-store/models/safe-item.model';
+import { selectAllSafeItems } from 'app/root-store/selectors/safe-item.selector';
 
 @Component({
   templateUrl: './safe-page.component.html',
@@ -37,9 +39,12 @@ export class SafePageComponent implements OnInit {
     this.safe$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.store.dispatch(new UserLoadSafe({ safeId: params.get('id'), userId: this.userId }));
+        this.store.dispatch(new UserLoadSafeItems({ safeId: params.get('id') }));
         return this.store.pipe(select(selectSafe, { safeId: params.get('id') }));
       }),
     );
+
+    this.items$ = this.store.pipe(select(selectAllSafeItems));
   }
 
   addSafeItem() {
@@ -54,10 +59,11 @@ export class SafePageComponent implements OnInit {
         //   console.log(`Dialog result:`, result);
         if (result) {
           result.safeId = safe.id;
-          const result$ = this.service.addItem(safe.id, result);
-          result$.subscribe(item => {
-            // console.log('new item id: ', item.id);
-          });
+          this.store.dispatch(new AddNewSafeItem({ safeItem: result }));
+          // const result$ = this.service.addItem(safe.id, result);
+          // result$.subscribe(item => {
+          //   // console.log('new item id: ', item.id);
+          // });
         }
       });
   }

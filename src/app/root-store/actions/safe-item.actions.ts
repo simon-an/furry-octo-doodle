@@ -1,3 +1,4 @@
+import { SafeItemApi } from './../../core/model/safe-item';
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 import { SafeItem } from '../models/safe-item.model';
@@ -5,7 +6,9 @@ import { SafeItem } from '../models/safe-item.model';
 export enum SafeItemActionTypes {
   // LoadSafeItems = '[SafeItem] Load SafeItems',
   UserLoadSafeItems = '[User Landing Page] Load SafeItems',
-  // AddSafeItem = '[SafeItem] Add SafeItem',
+  AddNewSafeItem = '[User Safe Page] Add NewSafeItem',
+  AddNewSafeItemSuccess = '[API] Add NewSafeItem Success',
+  AddNewSafeItemFailure = '[API] Add NewSafeItem Failure',
   // UpsertSafeItem = '[SafeItem] Upsert SafeItem',
   AddSafeItems = '[SafeItem] Add SafeItems',
   // UpsertSafeItems = '[SafeItem] Upsert SafeItems',
@@ -27,11 +30,21 @@ export class UserLoadSafeItems implements Action {
 //   constructor(public payload: { safeItems: SafeItem[] }) {}
 // }
 
-// export class AddSafeItem implements Action {
-//   readonly type = SafeItemActionTypes.AddSafeItem;
+export class AddNewSafeItem implements Action {
+  readonly type = SafeItemActionTypes.AddNewSafeItem;
 
-//   constructor(public payload: { safeItem: SafeItem }) {}
-// }
+  constructor(public payload: { safeItem: SafeItem }) {}
+}
+
+export class AddNewSafeItemSuccess implements Action {
+  readonly type = SafeItemActionTypes.AddNewSafeItemSuccess;
+
+  constructor(public payload: { safeItem: SafeItemApi }) {}
+}
+
+export class AddNewSafeItemFailure implements Action {
+  readonly type = SafeItemActionTypes.AddNewSafeItemFailure;
+}
 
 // export class UpsertSafeItem implements Action {
 //   readonly type = SafeItemActionTypes.UpsertSafeItem;
@@ -82,12 +95,14 @@ export class AddSafeItems implements Action {
 export type SafeItemActions =
   | UserLoadSafeItems
   // | LoadSafeItems
-  // | AddSafeItem
+  | AddNewSafeItem
+  | AddNewSafeItemSuccess
+  | AddNewSafeItemFailure
   // | UpsertSafeItem
   | AddSafeItems;
-  // | UpsertSafeItems
-  // | UpdateSafeItem
-  // | UpdateSafeItems
-  // | DeleteSafeItem
-  // | DeleteSafeItems
-  // | ClearSafeItems;
+// | UpsertSafeItems
+// | UpdateSafeItem
+// | UpdateSafeItems
+// | DeleteSafeItem
+// | DeleteSafeItems
+// | ClearSafeItems;
