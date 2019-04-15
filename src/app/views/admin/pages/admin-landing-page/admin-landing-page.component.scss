@@ -1,0 +1,12 @@
+.spacer {
+  flex: 1;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  margin-left: 15px;
+}

@@ -4,7 +4,22 @@
       <a mat-list-item routerLink="/home" routerLinkActive="active">Back to home</a>
     </mat-nav-list>
   </ng-container>
+  <ng-container toolbar>
+    <h2>Admin Area</h2>
+    <div class="spacer"></div>
+    <cool-task-counter></cool-task-counter>
+    <img class="avatar" src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+  </ng-container>
   <div body>
-    <cool-safe-list></cool-safe-list>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>card_travel</mat-icon>
+        </ng-template>
+
+        <cool-safe-list></cool-safe-list>
+      </mat-tab>
+      <mat-tab label="Tasks">Tasks</mat-tab>
+    </mat-tab-group>
   </div>
 </cool-header-with-sidenav>
