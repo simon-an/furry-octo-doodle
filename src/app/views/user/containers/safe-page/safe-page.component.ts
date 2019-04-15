@@ -1,7 +1,6 @@
 import { Observable, merge, Subject, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { SafeService } from '~core/services';
-import { SafeItem } from '~core/model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, withLatestFrom, filter, exhaustMap, concatMap, mergeMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
@@ -11,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { Safe } from 'app/root-store/models/safe';
 import { selectSafesLoading, selectSafe } from 'app/root-store/selectors/safe.selector';
 import { UserLoadSafe } from 'app/root-store/actions/safe.actions';
+import { SafeItem } from 'app/root-store/models/safe-item.model';
 
 @Component({
   templateUrl: './safe-page.component.html',

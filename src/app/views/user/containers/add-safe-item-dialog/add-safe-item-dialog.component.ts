@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { SafeItem } from '~core/model';
+import { SafeItem } from 'app/root-store/models/safe-item.model';
 
 @Component({
   selector: 'cool-add-safe-item-dialog',

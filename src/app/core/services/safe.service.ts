@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SafeApi, SafeItem } from '../model';
+import { SafeApi, SafeItemApi } from '../model';
 import { Observable, timer, ReplaySubject, BehaviorSubject, Subject } from 'rxjs';
 import { map, tap, concatMapTo, take, shareReplay, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +15,7 @@ export class SafeService {
   private readonly safesUrl = '/api/safes';
 
   private safes: ReplaySubject<SafeApi[]> = new ReplaySubject<SafeApi[]>();
-  private items: Subject<SafeItem[]> = new Subject<SafeItem[]>();
+  private items: Subject<SafeItemApi[]> = new Subject<SafeItemApi[]>();
 
   constructor(private http: HttpClient, private store: Store<State>) {
     timer(1000)
@@ -41,18 +41,18 @@ export class SafeService {
     return this.safes.asObservable().pipe(tap(safes => console.log('get', safes)));
   }
 
-  addItem(safeId: string, item: SafeItem): Observable<SafeItem> {
+  addItem(safeId: string, item: SafeItemApi): Observable<SafeItemApi> {
     const obs = this.http.post(this.safesUrl + `/${safeId}/items`, item).pipe(
-      map((response: SafeItem) => response),
+      map((response: SafeItemApi) => response),
       shareReplay(1),
     );
 
     return obs;
   }
 
-  getItems(safeId: string): Observable<SafeItem[]> {
+  getItems(safeId: string): Observable<SafeItemApi[]> {
     const result$ = this.http.get(this.safesUrl + `/${safeId}/items`).pipe(
-      map((items: SafeItem[]) => items),
+      map((items: SafeItemApi[]) => items),
       shareReplay(1),
     );
     result$.subscribe(items => {

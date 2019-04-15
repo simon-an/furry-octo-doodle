@@ -1,4 +1,4 @@
-export interface SafeItemApi {
+export interface SafeItem {
   id: string;
   name: string;
   price: number;
