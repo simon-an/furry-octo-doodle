@@ -21,6 +21,10 @@ export class SafeService {
     return this.http.get(`api/safes/${safeId}/items`).pipe(map((items: SafeItemApi[]) => items));
   }
 
+  getAllItems(): Observable<SafeItemApi[]> {
+    return this.http.get('api/items').pipe(map((items: SafeItemApi[]) => items));
+  }
+
   addItem(safeId: string, item: SafeItemApi): Observable<SafeItemApi> {
     return this.http.post(`api/safes/${safeId}/items`, item).pipe(map((itemWithId: SafeItemApi) => itemWithId));
   }

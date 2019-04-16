@@ -6,6 +6,7 @@ import { SafeItem } from '../models/safe-item.model';
 export enum SafeItemActionTypes {
   // LoadSafeItems = '[SafeItem] Load SafeItems',
   UserLoadSafeItems = '[User Landing Page] Load SafeItems',
+  AdminLoadSafeItems = '[Admin Landing Page] Load SafeItems',
   AddNewSafeItem = '[User Safe Page] Add NewSafeItem',
   AddNewSafeItemSuccess = '[API] Add NewSafeItem Success',
   AddNewSafeItemFailure = '[API] Add NewSafeItem Failure',
@@ -23,6 +24,10 @@ export class UserLoadSafeItems implements Action {
   readonly type = SafeItemActionTypes.UserLoadSafeItems;
 
   constructor(public payload: { safeId: string }) {}
+}
+
+export class AdminLoadSafeItems implements Action {
+  readonly type = SafeItemActionTypes.AdminLoadSafeItems;
 }
 // export class LoadSafeItems implements Action {
 //   readonly type = SafeItemActionTypes.LoadSafeItems;
@@ -94,6 +99,7 @@ export class AddSafeItems implements Action {
 
 export type SafeItemActions =
   | UserLoadSafeItems
+  | AdminLoadSafeItems
   // | LoadSafeItems
   | AddNewSafeItem
   | AddNewSafeItemSuccess

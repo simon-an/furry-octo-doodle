@@ -1,5 +1,10 @@
 import { UpdateSafeItemIds } from './../actions/safe.actions';
-import { AddNewSafeItem, AddNewSafeItemSuccess, AddNewSafeItemFailure } from './../actions/safe-item.actions';
+import {
+  AddNewSafeItem,
+  AddNewSafeItemSuccess,
+  AddNewSafeItemFailure,
+  AdminLoadSafeItems,
+} from './../actions/safe-item.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { SafeItemActionTypes, UserLoadSafeItems, AddSafeItems } from '../actions/safe-item.actions';
@@ -57,5 +62,11 @@ export class SafeItemEffects {
     }),
   );
 
+  @Effect()
+  loadSafeItemsAdmin$ = this.actions$.pipe(
+    ofType(SafeItemActionTypes.AdminLoadSafeItems),
+    exhaustMap((action: AdminLoadSafeItems) => this.safeService.getAllItems()),
+    map(items => new AddSafeItems({ safeItems: items as SafeItem[] })),
+  );
   constructor(private actions$: Actions, private safeService: SafeService) {}
 }

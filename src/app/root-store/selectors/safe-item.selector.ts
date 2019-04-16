@@ -23,4 +23,16 @@ export const selectSafeItemsBySafeId = createSelector(
   },
 );
 
+export const selectOpenTasks = createSelector(
+  selectAll,
+  (safeItems: SafeItem[]) => {
+    return safeItems.filter(safeItem => !safeItem.approved);
+  },
+);
+
+export const selectOpenTasksCount = createSelector(
+  selectOpenTasks,
+  (safeItems: SafeItem[]) => safeItems.length,
+);
+
 export const selectAllSafeItems = selectAll;

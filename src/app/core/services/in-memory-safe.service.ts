@@ -38,11 +38,11 @@ export class SafeInMemDataService implements InMemoryDbService {
 
     if (!this.db) {
       const items = [
-        { safeId: '1', id: '1', name: 'Fahrrad', price: 55.5 },
-        { safeId: '1', id: '2', name: 'Laptop', price: 999.99 },
-        { safeId: '2', id: '3', name: 'Taschenrechner', price: 123.5 },
-        { safeId: '2', id: '4', name: 'Sonnenbrille', price: 345 },
-        { safeId: '2', id: '5', name: 'Brille', price: 567 },
+        { safeId: '1', id: '1', name: 'Fahrrad', price: 55.5, invoiceId: 'A', pictureIds: [], approved: false },
+        { safeId: '1', id: '2', name: 'Laptop', price: 999.99, invoiceId: 'B', pictureIds: [], approved: true },
+        { safeId: '2', id: '3', name: 'Taschenrechner', price: 123.5, invoiceId: 'C', pictureIds: [], approved: true },
+        { safeId: '2', id: '4', name: 'Sonnenbrille', price: 345, invoiceId: 'D', pictureIds: [], approved: false },
+        { safeId: '2', id: '5', name: 'Brille', price: 567, invoiceId: 'E', pictureIds: [], approved: false },
       ];
 
       const safes = [
@@ -115,7 +115,7 @@ export class SafeInMemDataService implements InMemoryDbService {
     const parsed: ParsedRequestUrl = utils.parseRequestUrl(url);
     // console.log('request:', parsed, url);
 
-    if (/\/items(\/)?$/.test(url)) {
+    if (/\/safes\/([0-9]*)\/items(\/)?$/.test(url)) {
       const match: RegExpExecArray = /\/safes\/([0-9]*)\/items(\/)?$/.exec(url);
       parsed.collectionName = 'items';
       parsed.id = '';
