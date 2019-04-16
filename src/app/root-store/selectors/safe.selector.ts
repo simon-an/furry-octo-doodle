@@ -11,7 +11,10 @@ export const selectSafes = createSelector(
 
 export const selectSafe = createSelector(
   selectSlice,
-  (state: fromSafe.State, params: { safeId: string }) => state.safes.find(s => s.id === params.safeId),
+  (state: fromSafe.State, params: { safeId: string }) => {
+    console.log('selectSafe params: ', params);
+    return state.safes.find(s => s.id === params.safeId);
+  },
 );
 
 export const selectSafesLoading = createSelector(

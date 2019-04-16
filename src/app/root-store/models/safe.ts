@@ -5,4 +5,5 @@ export interface Safe {
   active: boolean;
   activeSince: Date;
   users: string[];
+  items: string[];
 }

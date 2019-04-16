@@ -12,7 +12,7 @@ import { Safe } from 'app/root-store/models/safe';
 import { selectSafesLoading, selectSafe } from 'app/root-store/selectors/safe.selector';
 import { UserLoadSafe } from 'app/root-store/actions/safe.actions';
 import { SafeItem } from 'app/root-store/models/safe-item.model';
-import { selectAllSafeItems } from 'app/root-store/selectors/safe-item.selector';
+import { selectAllSafeItems, selectSafeItemsBySafeId } from 'app/root-store/selectors/safe-item.selector';
 
 @Component({
   templateUrl: './safe-page.component.html',
@@ -39,12 +39,16 @@ export class SafePageComponent implements OnInit {
     this.safe$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.store.dispatch(new UserLoadSafe({ safeId: params.get('id'), userId: this.userId }));
-        this.store.dispatch(new UserLoadSafeItems({ safeId: params.get('id') }));
         return this.store.pipe(select(selectSafe, { safeId: params.get('id') }));
       }),
     );
 
-    this.items$ = this.store.pipe(select(selectAllSafeItems));
+    this.items$ = this.activatedRoute.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        this.store.dispatch(new UserLoadSafeItems({ safeId: params.get('id') }));
+        return this.store.pipe(select(selectSafeItemsBySafeId, { safeId: params.get('id') }));
+      }),
+    );
   }
 
   addSafeItem() {

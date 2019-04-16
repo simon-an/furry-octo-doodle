@@ -9,6 +9,7 @@ export enum SafeActionTypes {
   LoadSafesFailure = '[Safe API] Load Safes Failure',
   LoadSafeSuccess = '[Safe API] Load Safe Success',
   LoadSafeFailure = '[Safe API] Load Safe Failure',
+  UpdateSafeItemIds = '[Effect] Update SafeItemIds'
 }
 
 export class LoadSafeOnItemsChange implements Action {
@@ -41,6 +42,12 @@ export class LoadSafesFailure implements Action {
   readonly type = SafeActionTypes.LoadSafesFailure;
 }
 
+export class UpdateSafeItemIds implements Action {
+  readonly type = SafeActionTypes.UpdateSafeItemIds;
+
+  constructor(public payload: { safeId: string, ids: string[] }) {}
+}
+
 export type SafeActions =
   | LoadSafeOnItemsChange
   | AdminLoadSafes
@@ -48,4 +55,5 @@ export type SafeActions =
   | LoadSafesSuccess
   | LoadSafeSuccess
   | LoadSafesFailure
-  | LoadSafeFailure;
+  | LoadSafeFailure
+  | UpdateSafeItemIds;
