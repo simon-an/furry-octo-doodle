@@ -11,16 +11,13 @@ import { selectOpenTasks, selectOpenTasksCount } from 'app/root-store/selectors/
   selector: 'cool-task-counter',
   templateUrl: './task-counter.component.html',
   styleUrls: ['./task-counter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskCounterComponent implements OnInit {
   tasks$: Observable<number>;
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
-    this.store.dispatch(new AdminLoadSafeItems());
-
-    this.tasks$ = this.store.pipe(select(selectOpenTasksCount))
+    this.tasks$ = this.store.pipe(select(selectOpenTasksCount));
   }
-
 }

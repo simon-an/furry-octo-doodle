@@ -19,6 +19,7 @@ import {
 } from '@angular/material';
 import { TaskCounterComponent } from './container/task-counter/task-counter.component';
 import { TaskListComponent } from './container/task-list/task-list.component';
+import { TaskListElementComponent } from './container/task-list-element/task-list-element.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TaskListComponent } from './container/task-list/task-list.component';
     SafeRowComponent,
     TaskCounterComponent,
     TaskListComponent,
+    TaskListElementComponent,
   ],
   imports: [
     CommonModule,

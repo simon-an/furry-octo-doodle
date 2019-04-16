@@ -1,3 +1,6 @@
+import { AdminLoadSafeItems } from './../../../../root-store/actions/safe-item.actions';
+import { Store } from '@ngrx/store';
+import { State } from './../../../../root-store/reducers/safe-item.reducer';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -8,9 +11,10 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class AdminLandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
+    this.store.dispatch(new AdminLoadSafeItems());
   }
 
 }
