@@ -14,7 +14,6 @@ export class SafeItemEffects {
   loadSafes$ = this.actions$.pipe(
     ofType(SafeItemActionTypes.UserLoadSafeItems),
     tap(action => console.log('effects', action)),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
     exhaustMap((action: UserLoadSafeItems) => this.safeService.getItems(action.payload.safeId)),
     catchError(err => of([])),
     map((items: SafeItemApi[]) => new AddSafeItems({ safeItems: items })),
@@ -24,9 +23,8 @@ export class SafeItemEffects {
   addSafeItem$ = this.actions$.pipe(
     ofType(SafeItemActionTypes.AddNewSafeItem),
     tap(action => console.log('add item effect', action)),
-    /** An EMPTY observable only emits completion. Replace with your own observable API request */
     exhaustMap((action: AddNewSafeItem) =>
-      this.safeService.addItem(action.payload.safeItem.safeId, action.payload.safeItem),
+      this.safeService.addItem(action.payload.safeItem.safeId, {... action.payload.safeItem} as SafeItemApi),
     ),
     catchError(err => of(new AddNewSafeItemFailure())),
     map((item: SafeItemApi) => {

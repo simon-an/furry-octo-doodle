@@ -20,19 +20,18 @@ export function reducer(state = initialState, action: SafeItemActions): State {
     case SafeItemActionTypes.AddNewSafeItem: {
       const id = uuidv4();
       const newState: State = { ...state, newSafeItems: [...state.newSafeItems, id] };
-      const item = { ...action.payload.safeItem, id };
+      const item: SafeItem = { ...action.payload.safeItem, id };
       return adapter.addOne(item, newState);
     }
 
     case SafeItemActionTypes.AddNewSafeItemSuccess: {
-      const newState = { ...state, newSafeItem: [] };
-      const removed = adapter.removeOne(state.newSafeItems[0], newState);
+      const newState: State = { ...state, newSafeItems: [] };
+      const removed: State = adapter.removeOne(state.newSafeItems[0], newState);
       return adapter.addOne(action.payload.safeItem, removed);
     }
 
     case SafeItemActionTypes.AddNewSafeItemFailure: {
-      console.log('remove optimistic updated item: ', state.newSafeItems);
-      const newState = { ...state, newSafeItem: [] };
+      const newState: State = { ...state, newSafeItems: [] };
       return adapter.removeOne(state.newSafeItems[0], newState);
     }
 

@@ -21,7 +21,15 @@ export function reducer(state = initialState, action: SafeActions): State {
     case SafeActionTypes.LoadSafesSuccess:
       return { safes: [...action.payload.safes], pending: false };
     case SafeActionTypes.LoadSafeSuccess:
-      return { safes: [...state.safes, action.payload.safe], pending: false };
+      const index = state.safes.findIndex(safe => safe.id === action.payload.safe.id);
+      if (index > -1) {
+        return {
+          safes: [...state.safes.slice(0, index - 1), action.payload.safe, ...state.safes.slice(index + 1)],
+          pending: false,
+        };
+      } else {
+        return { safes: [...state.safes, action.payload.safe], pending: false };
+      }
     case SafeActionTypes.LoadSafeFailure:
     case SafeActionTypes.LoadSafesFailure:
       return { ...state, pending: false };
