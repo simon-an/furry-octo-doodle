@@ -23,6 +23,7 @@ import { TaskListComponent } from './container/task-list/task-list.component';
 import { TaskListElementComponent } from './container/task-list-element/task-list-element.component';
 import { TaskApprovalComponent } from './container/task-approval/task-approval.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SelectionListValidatorDirective } from './directives/selection-list-validator.directive';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TaskListComponent,
     TaskListElementComponent,
     TaskApprovalComponent,
+    SelectionListValidatorDirective,
   ],
   imports: [
     CommonModule,

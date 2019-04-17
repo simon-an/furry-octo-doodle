@@ -7,6 +7,7 @@ import { selectOpenTasks } from 'app/root-store/selectors/safe-item.selector';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatSelectionListChange } from '@angular/material';
 import { filter } from 'rxjs/operators';
+import { validateSelectionList } from '../../directives/selection-list-validator.directive';
 
 @Component({
   selector: 'cool-task-list',
@@ -34,7 +35,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
           controls[safeItem.id] = [false];
           return controls;
         }, {});
-        this.formGroup = this._formBuilder.group(config);
+        this.formGroup = this._formBuilder.group(config, { validators: validateSelectionList });
+        this.stepControl.addControl('step1', this.formGroup);
       });
   }
   ngOnDestroy(): void {
