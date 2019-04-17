@@ -8,15 +8,13 @@ import { AdminLoadSafes } from 'app/root-store/actions/safe.actions';
   selector: 'cool-admin-landing-page',
   templateUrl: './admin-landing-page.component.html',
   styleUrls: ['./admin-landing-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLandingPageComponent implements OnInit {
-
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>) {}
 
   ngOnInit() {
     this.store.dispatch(new AdminLoadSafes());
     this.store.dispatch(new AdminLoadSafeItems());
   }
-
 }

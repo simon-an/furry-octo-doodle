@@ -16,6 +16,7 @@ import {
   MatTabsModule,
   MatBadgeModule,
   MatCardModule,
+  MatStepperModule,
 } from '@angular/material';
 import { TaskCounterComponent } from './container/task-counter/task-counter.component';
 import { TaskListComponent } from './container/task-list/task-list.component';
@@ -45,6 +46,7 @@ import { TaskApprovalComponent } from './container/task-approval/task-approval.c
     MatTabsModule,
     MatBadgeModule,
     MatCardModule,
+    MatStepperModule,
   ],
   exports: [SafeListElementComponent, SafeRowComponent],
 })
