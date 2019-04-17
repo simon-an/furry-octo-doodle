@@ -41,8 +41,13 @@ export function reducer(state = initialState, action: SafeActions): State {
         console.log('UpdateSafeItemIDs: ', index);
         return {
           safes: [
-            ...state.safes.slice(0, index - 1),
-            { ...safe, items: [...(safe.items ? safe.items : []), ...action.payload.ids] } as Safe,
+            ...state.safes.slice(0, index),
+            {
+              ...safe,
+              items: [...(!!safe.items ? safe.items : []), ...action.payload.ids].filter(
+                (v, i, a) => a.indexOf(v) === i,
+              ),
+            } as Safe,
             ...state.safes.slice(index + 1),
           ],
           pending: false,

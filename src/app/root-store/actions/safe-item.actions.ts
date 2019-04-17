@@ -7,6 +7,8 @@ export enum SafeItemActionTypes {
   // LoadSafeItems = '[SafeItem] Load SafeItems',
   UserLoadSafeItems = '[User Landing Page] Load SafeItems',
   AdminLoadSafeItems = '[Admin Landing Page] Load SafeItems',
+  LoadSafeItemsFailure = '[API] Load SafeItems Failure',
+  LoadSafeItemsSuccess = '[API] Load SafeItems Success',
   AddNewSafeItem = '[User Safe Page] Add NewSafeItem',
   AddNewSafeItemSuccess = '[API] Add NewSafeItem Success',
   AddNewSafeItemFailure = '[API] Add NewSafeItem Failure',
@@ -49,6 +51,19 @@ export class AddNewSafeItemSuccess implements Action {
 
 export class AddNewSafeItemFailure implements Action {
   readonly type = SafeItemActionTypes.AddNewSafeItemFailure;
+
+  constructor(public payload: { error: any }) {}
+}
+export class LoadSafeItemsSuccess implements Action {
+  readonly type = SafeItemActionTypes.LoadSafeItemsSuccess;
+
+  constructor(public payload: { safeItems: SafeItem[] }) {}
+}
+
+export class LoadSafeItemsFailure implements Action {
+  readonly type = SafeItemActionTypes.LoadSafeItemsFailure;
+
+  constructor(public payload: { error: any }) {}
 }
 
 // export class UpsertSafeItem implements Action {
@@ -100,6 +115,8 @@ export class AddSafeItems implements Action {
 export type SafeItemActions =
   | UserLoadSafeItems
   | AdminLoadSafeItems
+  | LoadSafeItemsSuccess
+  | LoadSafeItemsFailure
   // | LoadSafeItems
   | AddNewSafeItem
   | AddNewSafeItemSuccess

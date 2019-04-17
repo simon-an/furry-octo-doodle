@@ -19,11 +19,10 @@ export function reducer(state = initialState, action: SafeItemActions): State {
   switch (action.type) {
     case SafeItemActionTypes.AddNewSafeItem: {
       const id = uuidv4();
-      const newState: State = { ...state, newSafeItems: [...state.newSafeItems, id] };
+      const newState: State = { ...state, newSafeItems: Array.from(new Set([...state.newSafeItems, id])) };
       const item: SafeItem = { ...action.payload.safeItem, id };
       return adapter.addOne(item, newState);
     }
-
     case SafeItemActionTypes.AddNewSafeItemSuccess: {
       const newState: State = { ...state, newSafeItems: [] };
       const removed: State = adapter.removeOne(state.newSafeItems[0], newState);
@@ -39,6 +38,7 @@ export function reducer(state = initialState, action: SafeItemActions): State {
     //   return adapter.upsertOne(action.payload.safeItem, state);
     // }
 
+    case SafeItemActionTypes.LoadSafeItemsSuccess:
     case SafeItemActionTypes.AddSafeItems: {
       return adapter.addMany(action.payload.safeItems, state);
     }

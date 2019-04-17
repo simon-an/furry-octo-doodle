@@ -4,6 +4,8 @@ import {
   AddNewSafeItemSuccess,
   AddNewSafeItemFailure,
   AdminLoadSafeItems,
+  LoadSafeItemsFailure,
+  LoadSafeItemsSuccess,
 } from './../actions/safe-item.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -17,12 +19,12 @@ import { SafeItem } from '../models/safe-item.model';
 @Injectable()
 export class SafeItemEffects {
   @Effect()
-  loadSafes$ = this.actions$.pipe(
+  loadSafeItems$ = this.actions$.pipe(
     ofType(SafeItemActionTypes.UserLoadSafeItems),
     tap(action => console.log('effects', action)),
     exhaustMap((action: UserLoadSafeItems) => this.safeService.getItems(action.payload.safeId)),
-    catchError(err => of([])),
-    map((items: SafeItemApi[]) => new AddSafeItems({ safeItems: items })),
+    map((items: SafeItemApi[]) => new LoadSafeItemsSuccess({ safeItems: items })),
+    catchError(err => of(new LoadSafeItemsFailure({ error: err }))),
   );
 
   @Effect()
@@ -32,11 +34,11 @@ export class SafeItemEffects {
     exhaustMap((action: AddNewSafeItem) =>
       this.safeService.addItem(action.payload.safeItem.safeId, { ...action.payload.safeItem } as SafeItemApi),
     ),
-    catchError(err => of(new AddNewSafeItemFailure())),
     map((item: SafeItemApi) => {
       return { ...item } as SafeItem;
     }),
     map((item: SafeItem) => new AddNewSafeItemSuccess({ safeItem: item })),
+    catchError(err => of(new AddNewSafeItemFailure(err))),
   );
 
   @Effect()

@@ -15,6 +15,7 @@ export const selectSafeItemsBySafeId = createSelector(
   selectEntities,
   selectSafe,
   (safeItems: Dictionary<SafeItem>, safe: Safe, params: { safeId: string }) => {
+    console.log('selectSafeItemsBySafeId');
     if (!!safe && !!safe.items) {
       return safe.items.map(itemId => safeItems[itemId]);
     } else {
