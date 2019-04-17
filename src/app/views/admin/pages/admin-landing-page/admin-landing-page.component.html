@@ -24,7 +24,7 @@
         <mat-horizontal-stepper>
           <mat-step [stepControl]="firstFormGroup">
             <cool-task-list [stepControl]="firstFormGroup"></cool-task-list>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-button matStepperNext [disabled]="firstFormGroup.invalid">Next</button>
           </mat-step>
           <mat-step>
             <cool-task-approval></cool-task-approval>
