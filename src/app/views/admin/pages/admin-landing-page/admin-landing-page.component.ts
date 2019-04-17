@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from './../../../../root-store/reducers/safe-item.reducer';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AdminLoadSafes } from 'app/root-store/actions/safe.actions';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cool-admin-landing-page',
@@ -11,7 +12,11 @@ import { AdminLoadSafes } from 'app/root-store/actions/safe.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLandingPageComponent implements OnInit {
-  constructor(private store: Store<State>) {}
+  firstFormGroup: FormGroup;
+
+  constructor(private store: Store<State>) {
+    this.firstFormGroup = new FormGroup({});
+  }
 
   ngOnInit() {
     this.store.dispatch(new AdminLoadSafes());

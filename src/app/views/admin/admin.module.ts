@@ -22,6 +22,7 @@ import { TaskCounterComponent } from './container/task-counter/task-counter.comp
 import { TaskListComponent } from './container/task-list/task-list.component';
 import { TaskListElementComponent } from './container/task-list-element/task-list-element.component';
 import { TaskApprovalComponent } from './container/task-approval/task-approval.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,8 @@ import { TaskApprovalComponent } from './container/task-approval/task-approval.c
     MatBadgeModule,
     MatCardModule,
     MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [SafeListElementComponent, SafeRowComponent],
 })
