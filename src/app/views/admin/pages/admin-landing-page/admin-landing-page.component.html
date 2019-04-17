@@ -23,7 +23,7 @@
         <!-- <router-outlet name="tasks"></router-outlet> -->
         <mat-horizontal-stepper>
           <mat-step [stepControl]="firstFormGroup">
-            <cool-task-list></cool-task-list>
+            <cool-task-list [stepControl]="firstFormGroup"></cool-task-list>
             <button mat-button matStepperNext>Next</button>
           </mat-step>
           <mat-step>

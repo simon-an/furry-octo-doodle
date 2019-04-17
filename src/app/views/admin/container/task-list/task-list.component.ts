@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
   selector: 'cool-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   formGroup: FormGroup;
@@ -31,11 +31,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
       )
       .subscribe((tasks: SafeItem[]) => {
         const config = tasks.reduce<{ [key: string]: any }>((controls, safeItem: SafeItem) => {
-          controls[safeItem.id] = [''];
+          controls[safeItem.id] = [false];
           return controls;
         }, {});
-        console.log('config: ', config);
-        this.formGroup = this._formBuilder.group(this.stepControl, config);
+        this.formGroup = this._formBuilder.group(config);
       });
   }
   ngOnDestroy(): void {
@@ -43,8 +42,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
   onSelectionChange(event: MatSelectionListChange) {
     const formControl = this.formGroup.get(event.option.value);
-    if (formControl && event.option.selected) {
-      formControl.setValue(true);
+    if (formControl) {
+      formControl.setValue(event.option.selected);
     }
   }
 }

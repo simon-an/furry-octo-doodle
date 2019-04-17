@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { State } from './../../../../root-store/reducers/safe-item.reducer';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AdminLoadSafes } from 'app/root-store/actions/safe.actions';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'cool-admin-landing-page',
