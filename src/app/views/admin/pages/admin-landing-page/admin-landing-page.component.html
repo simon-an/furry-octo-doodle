@@ -21,15 +21,16 @@
       </mat-tab>
       <mat-tab label="Tasks">
         <!-- <router-outlet name="tasks"></router-outlet> -->
-        <mat-horizontal-stepper>
+        <mat-vertical-stepper #landingPageStepper>
           <mat-step [stepControl]="firstFormGroup">
-            <cool-task-list [stepControl]="firstFormGroup"></cool-task-list>
-            <button mat-button matStepperNext [disabled]="firstFormGroup.invalid">Next</button>
+            <cool-task-list [stepControl]="firstFormGroup" (selectedTasks)="createSteps($event)"></cool-task-list>
           </mat-step>
-          <mat-step>
-            <cool-task-approval></cool-task-approval>
-          </mat-step>
-        </mat-horizontal-stepper>
+          <ng-container *ngIf="stepFormGroup">
+            <mat-step [stepControl]="firstFormGroup" *ngFor="let step of (stepFormGroup.controls | keyvalue)">
+              <cool-task-approval [taskId]="step.key" [formGroup]="step.value"></cool-task-approval>
+            </mat-step>
+          </ng-container>
+        </mat-vertical-stepper>
       </mat-tab>
     </mat-tab-group>
   </div>

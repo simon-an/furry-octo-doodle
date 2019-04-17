@@ -37,3 +37,10 @@ export const selectOpenTasksCount = createSelector(
 );
 
 export const selectAllSafeItems = selectAll;
+
+export const selectSafeItemById = createSelector(
+  selectEntities,
+  (safeItems: Dictionary<SafeItem>, params: { itemId: string }) => {
+    return safeItems[params.itemId];
+  },
+);
